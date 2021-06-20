@@ -2,9 +2,34 @@ function print(msg){
     console.log(msg)
 }
 
+const wordArray = ['that', 'of']
+
+function getWordPos(str, word){
+    const strPos = str.indexOf(word)
+    return strPos
+}
+
+function wordsExist(wordArray){
+    const ps = document.querySelectorAll('p')
+
+    print(`Words to be checked: `)
+
+    wordArray.forEach(wd => {
+        print(wd)
+    })
+
+    print(ps[2].textContent)
+
+    wordArray.forEach( word => {
+        if(wordExists(word, ps[2].textContent, getWordPos(ps[2].textContent, word))){
+            print(`The word ${word} exists.`)
+        }
+    })
+}
+
 function wordExists(word, str, strPos){
     if(strPos > -1 && str.charAt(strPos + word.length) === ' '){
-        print(`The word starts at ${strPos} and ends at ${strPos + word.length}`)
+        //print(`The word starts at ${strPos} and ends at ${strPos + word.length}`)
         return true
     }else{
         return false
@@ -40,7 +65,9 @@ let stateCheck = setInterval(() => {
 
       const paragraphs = document.querySelectorAll('p')
 
-      print(getText(paragraphs, 'javascript'))
+      //print(getText(paragraphs, 'javascript'))
+
+      wordsExist(wordArray)
 
     }
   }, 100);
