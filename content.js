@@ -3,7 +3,8 @@ function print(msg){
 }
 
 function wordExists(word, str, strPos){
-    if(strPos > -1 && str.charAt(strPos + 4)){
+    if(strPos > -1 && str.charAt(strPos + word.length) === ' '){
+        print(`The word starts at ${strPos} and ends at ${strPos + word.length}`)
         return true
     }else{
         return false
@@ -15,15 +16,15 @@ function singleText(text, word){
     const strPos = str.indexOf(word)
     let response = ''
     if(wordExists(word, str, strPos)){
-        response = `(${word}) => ${str}`
+        response = `(${word}) => ${str.replace(word, '==>>> '+word+' <<<==')}`
     }
     return response
 }
 
-function getText(paragraphs){
+function getText(paragraphs, word){
     let str = ''
     paragraphs.forEach( p => {
-        str += singleText(p.textContent, 'javascript') + '\n'
+        str += singleText(p.textContent, word) + '\n'
     })
     return str
 }
@@ -39,7 +40,7 @@ let stateCheck = setInterval(() => {
 
       const paragraphs = document.querySelectorAll('p')
 
-      print(getText(paragraphs))
+      print(getText(paragraphs, 'free'))
 
     }
   }, 100);
