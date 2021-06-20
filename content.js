@@ -2,8 +2,6 @@ function print(msg){
     console.log(msg)
 }
 
-print('Content.js is running.')
-
 function wordExists(word, str, strPos){
     if(strPos > -1 && str.charAt(strPos + 4)){
         return true
@@ -32,9 +30,25 @@ function getText(paragraphs){
 
 
 
-const paragraphs = document.querySelectorAll('p')
+let stateCheck = setInterval(() => {
+    if (document.readyState === 'complete') {
+      clearInterval(stateCheck);
+      
+      print('script running.')
+      print('document ready.')
 
-print(getText(paragraphs))
+      const paragraphs = document.querySelectorAll('p')
+
+      print(getText(paragraphs))
+
+    }
+  }, 100);
+
+
+
+
+
+
 
 
 
