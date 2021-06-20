@@ -16,7 +16,7 @@ function singleText(text, word){
     const strPos = str.indexOf(word)
     let response = ''
     if(wordExists(word, str, strPos)){
-        response = `(${word}) => ${str.replace(word, '==>>> '+word+' <<<==')}`
+        response = `(${word}) => ${str.replaceAll(word, '==>>> '+word+' <<<==')}`
     }
     return response
 }
@@ -40,7 +40,7 @@ let stateCheck = setInterval(() => {
 
       const paragraphs = document.querySelectorAll('p')
 
-      print(getText(paragraphs, 'free'))
+      print(getText(paragraphs, 'javascript'))
 
     }
   }, 100);
