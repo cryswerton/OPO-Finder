@@ -1,30 +1,64 @@
 function print(msg){
-    console.log(msg)
+    console.log(msg) 
 }
 
-const wordArray = ['that', 'of']
+const wordArray = ['free']
 
 function getWordPos(str, word){
     const strPos = str.indexOf(word)
     return strPos
 }
 
-function wordsExist(wordArray){
-    const ps = document.querySelectorAll('p')
+function getParagraphs(elementContent){
+    paragraphsArray = []
+    string = Array.from(elementContent)
+    let phrase = ''
+    let temp = ''
 
-    print(`Words to be checked: `)
-
-    wordArray.forEach(wd => {
-        print(wd)
-    })
-
-    print(ps[2].textContent)
-
-    wordArray.forEach( word => {
-        if(wordExists(word, ps[2].textContent, getWordPos(ps[2].textContent, word))){
-            print(`The word ${word} exists.`)
+    string.forEach( char => {
+        if(char !== '.'){
+            phrase += char
+        }else{
+            phrase += '.'
+            temp = phrase
+            phrase = ''
+            paragraphsArray.push(temp)
         }
     })
+    return paragraphsArray
+}
+
+function wordsExist(wordArray, element){
+    let amountOfWords = wordArray.length
+    let wordsCounted = 0
+    valid = false
+    wordArray.forEach( word => {
+        if(wordExists(word, element.textContent, getWordPos(element.textContent, word))){
+            wordsCounted += 1
+        }
+    })
+    // print(`amount: ${amountOfWords}`)
+    // print(`counted: ${wordsCounted}`)
+    // print(amountOfWords === wordsCounted)
+    if(amountOfWords === wordsCounted){
+        valid = true
+    }
+    return valid
+}
+
+function getValidElements(wordArray){
+    const ps = document.querySelectorAll('p')
+
+    const elements = [...ps]
+
+    print(elements[1].textContent)
+
+    let validElements = elements.filter(p => {
+        // wordsExist(wordArray, p.textContent)
+        // print(wordsExist(wordArray, p.textContent))
+        return wordsExist(wordArray, p)
+    })
+    return validElements
 }
 
 function wordExists(word, str, strPos){
@@ -63,11 +97,7 @@ let stateCheck = setInterval(() => {
       print('script running.')
       print('document ready.')
 
-      const paragraphs = document.querySelectorAll('p')
-
-      //print(getText(paragraphs, 'javascript'))
-
-      wordsExist(wordArray)
+      print(getValidElements(wordArray))
 
     }
   }, 100);
