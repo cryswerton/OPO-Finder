@@ -28,12 +28,12 @@ function getParagraphs(elementContent){
     return paragraphsArray
 }
 
-function wordsExist(wordArray, element){
+function wordsExist(wordArray, elementTextContent){
     let amountOfWords = wordArray.length
     let wordsCounted = 0
     valid = false
     wordArray.forEach( word => {
-        if(wordExists(word, element.textContent, getWordPos(element.textContent, word))){
+        if(wordExists(word, elementTextContent, getWordPos(elementTextContent, word))){
             wordsCounted += 1
         }
     })
@@ -49,16 +49,30 @@ function wordsExist(wordArray, element){
 function getValidElements(wordArray){
     const ps = document.querySelectorAll('p')
 
+    // makes a copy of the ps array
     const elements = [...ps]
 
-    print(elements[1].textContent)
-
     let validElements = elements.filter(p => {
-        // wordsExist(wordArray, p.textContent)
-        // print(wordsExist(wordArray, p.textContent))
-        return wordsExist(wordArray, p)
+        return wordsExist(wordArray, p.textContent)
     })
     return validElements
+}
+
+function getValidParagraphs(wordArray){
+    const validElements = getValidElements(wordArray)
+    let string = '' 
+    // get the valid elements contents
+    validElements.forEach( el => {
+        string += el.textContent
+    })
+
+    const paragraphs = getParagraphs(string)
+
+    const validParagraphs = paragraphs.filter(p => {
+        return wordsExist(wordArray, p)
+    })
+
+    return validParagraphs
 }
 
 function wordExists(word, str, strPos){
@@ -97,7 +111,12 @@ let stateCheck = setInterval(() => {
       print('script running.')
       print('document ready.')
 
-      print(getValidElements(wordArray))
+      const validParagraphs = getValidParagraphs(wordArray)
+
+      validParagraphs.forEach(p => {
+          print(p)
+      })
+
 
     }
   }, 100);
